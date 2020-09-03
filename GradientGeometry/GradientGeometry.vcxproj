@@ -139,7 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="GradientGeometry.cpp" />
+    <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="Figure.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
