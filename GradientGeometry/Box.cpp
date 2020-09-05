@@ -52,23 +52,28 @@
 		return Box::Square(A, B);
 	}
 
-	void Box::Draw(Canvas& canvas, bool asNewCanvas)
+	void Box::Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		for (int i = A.X; i <= B.X; i++)
 		{
-			canvas.DrawPixel(i, A.Y);
-			canvas.DrawPixel(i, B.Y);
+			canvas.DrawPixel(i, A.Y, getColor(i, A.Y));
+			canvas.DrawPixel(i, B.Y, getColor(i, B.Y));
 		}
 		for (int i = A.Y; i <= B.Y; i++)
 		{
-			canvas.DrawPixel(A.X, i);
-			canvas.DrawPixel(B.X, i);
+			canvas.DrawPixel(A.X, i, getColor(A.X, i));
+			canvas.DrawPixel(B.X, i, getColor(B.X, i));
 		}
 	}
 
-	void Box::Fill(Canvas& canvas, bool asNewCanvas)
+	void Box::Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		for (int i = A.Y; i <= B.Y; i++)
 			for (int j = A.X; j <= B.X; j++)
-				canvas.DrawPixel(j, i);
+				canvas.DrawPixel(j, i, getColor(i,j));
+	}
+
+	COLORREF Box::GetColor(int x, int y)
+	{
+		return RGB(0, 0, 0);
 	}

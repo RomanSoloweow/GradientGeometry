@@ -25,7 +25,7 @@
 		return Line::GetLength(A, B);
 	}
 
-	void Line::Draw(Canvas& canvas, bool asNewCanvas)
+	void Line::Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		if (A.Y > B.Y)
 			swap(A, B);
@@ -38,7 +38,7 @@
 		bool exit = false;
 		while (!exit)
 		{
-			canvas.DrawPixel(A0.X, A0.Y);
+			canvas.DrawPixel(A0.X, A0.Y, getColor(A0.X, A0.Y));
 			if (A0.Y < B.Y)
 			{
 				if (2 * error < deltaX)
@@ -58,9 +58,14 @@
 		}
 	}
 
-	void Line::Fill(Canvas& canvas, bool asNewCanvas)
+	void Line::Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
-		Draw(canvas);
+		Draw(canvas, getColor);
+	}
+
+	COLORREF Line::GetColor(int x, int y)
+	{
+		return RGB(0, 0, 0);
 	}
 	
 //Othet altgorihtm

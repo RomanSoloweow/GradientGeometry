@@ -2,7 +2,8 @@
 #include "Figure.h"
 #include "Point.h"
 #include "Canvas.h"
-
+#include <functional>
+#include <windows.h>
 
 class Circle: public Figure
 {
@@ -13,6 +14,7 @@ class Circle: public Figure
 	Circle(Point o, int radius);
 	static float Square(int& radius);
 	float Square();
-	void Draw(Canvas& canvas, bool asNewCanvas = true);
-	void Fill(Canvas& canvas, bool asNewCanvas = true);
+	void Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor);
+	void Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor);
+	COLORREF GetColor(int x, int y);
 };

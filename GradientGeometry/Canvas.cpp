@@ -2,7 +2,10 @@
 #include <windows.h>
 #include "Point.h"
 #include "Figure.h"
+#include <functional>
 
+using namespace std;
+using namespace placeholders;
 	bool Canvas::PointInside(int a, int b)
 	{
 		if ((a > B.X) || (a < A.X))
@@ -19,7 +22,7 @@
 		GetWindowRect(console, &window);
 	}
 
-	COLORREF Canvas::GetColor(int& x, int& y)
+	COLORREF Canvas::GetColor(int x, int y)
 	{
 		if (DefaultColor != NULL)
 			return *DefaultColor;
@@ -71,7 +74,27 @@
 		SetPixel(this->dc, x, y, color);
 	}
 
-	void Canvas::DrawFigure(Figure& figure)
+	void Canvas::DrawFigure(Figure& figure, bool newGradient)
 	{
-		figure.Draw(*this);
+		/*if (newGradient)
+		{
+			figure.Draw(*this, bind(&Figure::GetColor, figure, _1, _2));
+		}
+		else
+		{*/
+			figure.Draw(*this, bind(&Canvas::GetColor, this, _1, _2));
+		/*}*/
 	}
+
+	void Canvas::FillFigure(Figure& figure, bool newGradient)
+	{
+		if (newGradient)
+		{
+			figure.Fill(*this, bind(&Figure::GetColor, figure, _1, _2));
+		}
+		else
+		{
+			figure.Fill(*this, bind(&Canvas::GetColor, this, _1, _2));
+		}
+	}
+

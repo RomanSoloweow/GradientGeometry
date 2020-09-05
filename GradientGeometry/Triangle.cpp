@@ -21,23 +21,6 @@
 			swap(c, b);
 	}
 
-	COLORREF Triangle::GetColor(Canvas& canvas, bool gradient, int& x, int& y)
-	{
-		if (gradient)
-		{
-			double r_ = 0, g_ = 0, b_ = 0;
-			double square_ = Square();
-			Point G(x, y), A_(A), B_(B), C_(C);
-			r_ = 255.0 * Triangle::Square(G, A_, C_) / square_;
-			b_ = 255.0 * Triangle::Square(G, B_, C_) / square_;
-			g_ = 255.0 * Triangle::Square(G, A_, B_) / square_;
-			COLORREF color = RGB(r_, g_, b_);
-			return color;
-		}
-		else
-			return canvas.GetColor(x, y);
-	}
-
 	double Triangle::Square(int x0, int  y0, int x1, int y1, int x2, int y2)
 	{
 		return (0.5 * abs((x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0)));
@@ -53,20 +36,20 @@
 		return Triangle::Square(A, B, C);
 	}
 
-	void Triangle::Draw(Canvas& canvas, bool asNewCanvas)
+	void Triangle::Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		Line Line1(A, B);
 		Line Line2(A, C);
 		Line Line3(B, C);
 
-		canvas.DrawFigure(Line1);
-		canvas.DrawFigure(Line2);
-		canvas.DrawFigure(Line3);
+		Line1.Draw(canvas, getColor);
+		Line2.Draw(canvas, getColor);
+		Line3.Draw(canvas, getColor);
 	}
 			
 
 
-	void Triangle::Fill(Canvas& canvas, bool asNewCanvas)
+	void Triangle::Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		Point P1 = A, P2 = A;
 		int deltaX_1 = abs(B.X - A.X);
@@ -123,7 +106,7 @@
 				exit_2 = true;
 
 			for (int x = min(P1.X, P2.X) - kof * abs(P1.Y - P2.Y) * left; x <= max(P1.X, P2.X) + kof * abs(P1.Y - P2.Y) * right; x++)
-				canvas.DrawPixel(x, P2.Y, GetColor(canvas, asNewCanvas, x, P2.Y));
+				canvas.DrawPixel(x, P2.Y, getColor(x, P2.Y));
 
 		}
 
@@ -174,10 +157,22 @@
 				exit_2 = true;
 
 			for (int x = min(P1.X, P2.X) + kof * abs(P1.Y - P2.Y) * left; x <= max(P1.X, P2.X) - kof * abs(P1.Y - P2.Y) * right; x++)
-				canvas.DrawPixel(x, P2.Y, GetColor(canvas, asNewCanvas, x, P2.Y));
+				canvas.DrawPixel(x, P2.Y, getColor(x, P2.Y));
 		}
 	}
 
+
+	COLORREF Triangle::GetColor(int x, int y)
+	{
+		double r_ = 0, g_ = 0, b_ = 0;
+		double square_ = Square();
+		Point G(x, y), A_(A), B_(B), C_(C);
+		r_ = 255.0 * Triangle::Square(G, A_, C_) / square_;
+		b_ = 255.0 * Triangle::Square(G, B_, C_) / square_;
+		g_ = 255.0 * Triangle::Square(G, A_, B_) / square_;
+		COLORREF color = RGB(r_, g_, b_);
+		return color;
+	}
 
 //	//перебираем точки
 //	bool draw2()
