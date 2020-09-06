@@ -1,19 +1,11 @@
 #include "Canvas.h"
 #include <windows.h>
-#include "Point.h"
 #include "Figure.h"
 #include <functional>
 
 using namespace std;
 using namespace placeholders;
-	bool Canvas::PointInside(int a, int b)
-	{
-		if ((a > B.X) || (a < A.X))
-			return false;
-		if ((b > B.Y) || (b < A.Y))
-			return false;
-		return true;
-	}
+
 
 	void Canvas::GetScreen()
 	{
@@ -22,82 +14,29 @@ using namespace placeholders;
 		GetWindowRect(console, &window);
 	}
 
-	COLORREF Canvas::GetColor(int x, int y)
-	{
-		double r_ = 0, g_ = 0, b_ = 0;
-		if (PointInside(x, y))
-		{
-			r_ = 255.000 * (y - A.Y) / GetHeight();
-			b_ = 255.000 * (x - A.X) / GetWidth();
-			g_ = 255.000 - ((r_ + b_) / 2);
-		}
-		else
-		{
-			r_ = 255, g_ = 255, b_ = 255;
-		}
-		return RGB(r_, g_, b_);
-	}
-
-	Canvas::Canvas(int x0, int y0, int x1, int y1): A(min(x0, x1), min(y0, y1)), B(max(x0, x1), max(y0, y1))
+	Canvas::Canvas()
 	{
 		GetScreen();
-	}
-
-	Canvas::Canvas(Point& a, Point& b) :Canvas(a.X, a.Y, b.X, b.Y)
-	{
-		
-	}
-	int Canvas::GetWidth()
-	{
-		return (B.X - A.X);
-	}
-
-	int Canvas::GetHeight()
-	{
-		return (B.Y - A.Y);
-	}
-	
-	void Canvas::DrawPixel(int x, int y)
-	{
-		SetPixel(this->dc, x, y, this->GetColor(x, y));
 	}
 
 	void Canvas::DrawPixel(int x, int y, COLORREF color)
 	{
 		SetPixel(this->dc, x, y, color);
 	}
-	
-	void Canvas::DrawFigure(Figure& figure, bool newGradient)
+
+	void Canvas::DrawFigure(Figure& figure, COLORREF color)
 	{
-		if (newGradient)
-		{
+		if(color == NULL)
 			figure.Draw(*this, bind(&Figure::GetColor, &figure, _1, _2));
-		}
 		else
-		{
-			figure.Draw(*this, bind(&Canvas::GetColor, this, _1, _2));
-		}
+			figure.Draw(*this, [=](int x, int y) { return color; });
 	}
 
-	void Canvas::FillFigure(Figure& figure, bool newGradient)
+	void Canvas::FillFigure(Figure& figure, COLORREF color)
 	{
-		if (newGradient)
-		{
+ 		if (color == NULL)
 			figure.Fill(*this, bind(&Figure::GetColor, &figure, _1, _2));
-		}
 		else
-		{
-			figure.Fill(*this, bind(&Canvas::GetColor, this, _1, _2));
-		}
-	}
-
-	void Canvas::DrawFigureMagicColor(Figure& figure)
-	{
-		figure.Draw(*this, bind(&Figure::GetMagicColor, &figure, _1, _2));	
-	}
-
-	void Canvas::FillFigureMagicColor(Figure& figure)
-	{
-		figure.Fill(*this, bind(&Figure::GetMagicColor, &figure, _1, _2));
+			figure.Fill(*this, [=](int x, int y) { return color; });
 	}
 

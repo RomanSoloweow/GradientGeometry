@@ -99,12 +99,3 @@
 	{		
 		return Circle::GetColor(O, R, x, y);
 	}
-
-	COLORREF Circle::GetMagicColor(int x, int y)
-	{
-		double r_ = 0, g_ = 0, b_ = 0;
-		r_ = 255.000 * (y - (O.Y - R)) /2*R;
-		b_ = 255.000 * (x - (O.X - R)) /2*R;
-		g_ = 255.000 - ((r_ + b_) / 2);
-		return RGB(r_, g_, b_);
-	}

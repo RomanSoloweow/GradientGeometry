@@ -186,18 +186,6 @@
 		return color;
 	}
 
-	COLORREF Triangle::GetMagicColor(int x, int y)
-	{
-		double r_ = 0, g_ = 0, b_ = 0;
-		double square_ = GetSquare() / 2;
-		Point G(x, y);
-		r_ = 255.0 * Triangle::GetSquare(G, A, C) /2* square_;
-		b_ = 255.0 * Triangle::GetSquare(G, B, C) /2* square_;
-		g_ = 255.0 * Triangle::GetSquare(G, A, B) /2* square_;
-		COLORREF color = RGB(r_, g_, b_);
-		return color;
-	}
-
 
 
 //	//перебираем точки

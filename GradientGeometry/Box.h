@@ -28,7 +28,6 @@ class Box: public Figure
 	void Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor);
 	void Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor);
 	COLORREF GetColor(int x, int y);
-	COLORREF GetMagicColor(int x, int y);
 	static 	COLORREF GetColor(Point A, Point B, int x, int y);
 	static 	COLORREF GetColor(int x0, int y0, int x1, int y1, int x, int y);
 };

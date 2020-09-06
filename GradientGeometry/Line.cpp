@@ -2,12 +2,15 @@
 
 	Line::Line(int x0, int  y0, int x1, int y1):A(x0, y0), B(x1, y1)
 	{
-
+		if (A.X > B.X)
+			swap(A, B);
 	}
 
 	Line::Line(Point a, Point b) : A(a), B(b)
 	{
-
+		/*if (A.Y > B.Y)*/
+		if (A.X > B.X)
+			swap(A, B);
 	}
 	Line::~Line()
 	{
@@ -36,37 +39,34 @@
 		return Lenght;
 	}
 
-	void Line::Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
+	void Line::Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor) 
 	{
-		if (A.Y > B.Y)
-			swap(A, B);
-		Point A0 = A;
-		int deltaX = abs(B.X - A.X);
-		int deltaY = abs(B.Y - A.Y);
-		int signX = A.X < B.X ? 1 : -1;
-		int signY = A.Y < B.Y ? 1 : -1;
+		int x1 = A.X;
+		int y1 = A.Y;
+		int x2 = B.X;
+		int y2 = B.Y;
+		const int deltaX = abs(x2 - x1);
+		const int deltaY = abs(y2 - y1);
+		const int signX = x1 < x2 ? 1 : -1;
+		const int signY = y1 < y2 ? 1 : -1;
 		int error = deltaX - deltaY;
-		bool exit = false;
-		while (!exit)
+		canvas.DrawPixel(x2, y2, getColor(x2, y2));
+		while (x1 != x2 || y1 != y2)
 		{
-			canvas.DrawPixel(A0.X, A0.Y, getColor(A0.X, A0.Y));
-			if (A0.Y < B.Y)
+			canvas.DrawPixel(x1, y1, getColor(x1, y1));
+			const int error2 = error * 2;
+			if (error2 > -deltaY)
 			{
-				if (2 * error < deltaX)
-				{
-					error += deltaX;
-					A0.Y += signY;
-				}
-
-				if (2 * error > -deltaY)
-				{
-					error -= deltaY;
-					A0.X += signX;
-				}
+				error -= deltaY;
+				x1 += signX;
 			}
-			else
-				exit = true;
+			if (error2 < deltaX)
+			{
+				error += deltaX;
+				y1 += signY;
+			}
 		}
+
 	}
 
 	void Line::Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
@@ -100,34 +100,6 @@
 		currentLenght -= _075;
 
 		return GetDrawBox()->GetColor(_025, currentLenght);
-	}
-
-	COLORREF Line::GetMagicColor(int x, int y)
-	{
-		x -= A.X;
-		double currentLenght = Line::GetLength(A.X, A.Y, x, y);
-
-		int _025 = Line::GetLength() * 0.25;
-		int _05 = _025 * 2;
-		int _075 = _025 * 3;
-
-		if (currentLenght <= _025)
-		{
-			return GetDrawBox()->GetMagicColor(_025 - currentLenght, _025);
-		}
-		else if (currentLenght <= _05)
-		{
-			currentLenght -= _025;
-			return GetDrawBox()->GetMagicColor(0, _025 - currentLenght);
-		}
-		else if (currentLenght <= _075)
-		{
-			currentLenght -= _05;
-			return GetDrawBox()->GetMagicColor(currentLenght, 0);
-		}
-		currentLenght -= _075;
-
-		return GetDrawBox()->GetMagicColor(_025, currentLenght);
 	}
 	
 //Othet altgorihtm

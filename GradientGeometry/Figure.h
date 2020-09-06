@@ -10,6 +10,5 @@ class Figure
 	virtual void Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor) = 0;
 	virtual void Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor) = 0;
 	virtual COLORREF GetColor(int x, int y) = 0;
-	virtual COLORREF GetMagicColor(int x, int y) = 0;
 };
 

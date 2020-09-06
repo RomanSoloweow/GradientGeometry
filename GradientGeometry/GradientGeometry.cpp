@@ -10,31 +10,18 @@ int main()
 	cout << ("Press any key to start:");
 	getchar();
 
-	Canvas canvas(10, 10, 1500, 1500);
-	Box Box1(10, 10, 1500, 1500);
-	Box Box2(1000, 1000, 1500, 1500);
-	Triangle Triangle(10, 250, 80, 180, 150, 250);
-	Circle Circle(350, 350, 150);
-	Line Line1(50, 50, 300, 1500);
-	Line Line2(5, 10, 1495, 1500);
-	Line Line3(250, 50, 150, 150);
-	Line Line4(250, 50, 200, 175);
-	canvas.FillFigureMagicColor(Box1);
-	//canvas.FillFigure(Line2, false);
-	/*canvas.FillFigure(Box2, false);*/
-	//canvas.FillFigure(Triangle);
-	//canvas.FillFigure(Circle);
-	//canvas.FillFigure(Line1);
-	//canvas.FillFigure(Line2);
-	//canvas.FillFigure(Line3);
-	//canvas.FillFigure(Line4);
 
-	/*Triangle Triangle(250, 10, 10, 200, 400, 300);*/
-	/*Triangle.draw();*/
-	//Triangle.scope();
+	Canvas canvas;
+	Triangle Triangle(1500, 100, 100, 1900, 2900, 1900);
+	Circle Circle(1500, 1000, 900);
+	Box Box(100, 100, 2900, 1900);
+	Line Line1(100, 100, 2900, 1900);
+	Line Line2(2900, 100, 100, 1900);
+	canvas.DrawFigure(Line1);
+	canvas.DrawFigure(Line2);
 
 
-	//cin.get();
+
 	cout << ("Press '1' for end:");
 	char c;
 	do

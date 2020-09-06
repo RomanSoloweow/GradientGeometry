@@ -96,14 +96,3 @@
 		g_ = 255.000 - ((r_ + b_) / 2);
 		return RGB(r_, g_, b_);
 	}
-
-	COLORREF Box::GetMagicColor(int x, int y)
-	{
-		double r_ = 0, g_ = 0, b_ = 0;
-		auto height = GetHeight() / 2;
-		auto widht = GetWidth() / 2;
-		r_ = 255.000 * (y - A.Y) /2 * height;
-		b_ = 255.000 * (x - A.X) / 2 * widht;
-		g_ = 255.000 - ((r_ + b_) / 2);
-		return RGB(r_, g_, b_);
-	}
