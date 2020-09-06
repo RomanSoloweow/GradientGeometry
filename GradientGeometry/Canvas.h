@@ -25,4 +25,7 @@ class Canvas
 	void DrawPixel(int x, int y, COLORREF color);
 	void DrawFigure(Figure& figure, bool newGradient = true);
 	void FillFigure(Figure& figure, bool newGradient = true);
+
+	void DrawFigureMagicColor(Figure& figure);
+	void FillFigureMagicColor(Figure& figure);
 };

@@ -101,6 +101,34 @@
 
 		return GetDrawBox()->GetColor(_025, currentLenght);
 	}
+
+	COLORREF Line::GetMagicColor(int x, int y)
+	{
+		x -= A.X;
+		double currentLenght = Line::GetLength(A.X, A.Y, x, y);
+
+		int _025 = Line::GetLength() * 0.25;
+		int _05 = _025 * 2;
+		int _075 = _025 * 3;
+
+		if (currentLenght <= _025)
+		{
+			return GetDrawBox()->GetMagicColor(_025 - currentLenght, _025);
+		}
+		else if (currentLenght <= _05)
+		{
+			currentLenght -= _025;
+			return GetDrawBox()->GetMagicColor(0, _025 - currentLenght);
+		}
+		else if (currentLenght <= _075)
+		{
+			currentLenght -= _05;
+			return GetDrawBox()->GetMagicColor(currentLenght, 0);
+		}
+		currentLenght -= _075;
+
+		return GetDrawBox()->GetMagicColor(_025, currentLenght);
+	}
 	
 //Othet altgorihtm
 

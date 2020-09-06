@@ -18,5 +18,8 @@ class Circle: public Figure
 	void Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor);
 	void Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor);
 	COLORREF GetColor(int x, int y);
+	COLORREF GetMagicColor(int x, int y);
 	static COLORREF GetColor(Point o, int radius, int x, int y);
+
+	
 };

@@ -66,7 +66,7 @@ using namespace placeholders;
 	{
 		SetPixel(this->dc, x, y, color);
 	}
-
+	
 	void Canvas::DrawFigure(Figure& figure, bool newGradient)
 	{
 		if (newGradient)
@@ -89,5 +89,15 @@ using namespace placeholders;
 		{
 			figure.Fill(*this, bind(&Canvas::GetColor, this, _1, _2));
 		}
+	}
+
+	void Canvas::DrawFigureMagicColor(Figure& figure)
+	{
+		figure.Draw(*this, bind(&Figure::GetMagicColor, &figure, _1, _2));	
+	}
+
+	void Canvas::FillFigureMagicColor(Figure& figure)
+	{
+		figure.Fill(*this, bind(&Figure::GetMagicColor, &figure, _1, _2));
 	}
 

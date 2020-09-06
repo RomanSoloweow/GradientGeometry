@@ -19,7 +19,7 @@ int main()
 	Line Line2(5, 10, 1495, 1500);
 	Line Line3(250, 50, 150, 150);
 	Line Line4(250, 50, 200, 175);
-	canvas.FillFigure(Line1);
+	canvas.FillFigureMagicColor(Box1);
 	//canvas.FillFigure(Line2, false);
 	/*canvas.FillFigure(Box2, false);*/
 	//canvas.FillFigure(Triangle);
