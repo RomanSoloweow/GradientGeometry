@@ -10,11 +10,6 @@ It's crazy project for drawing figures in console. For drawing used Bresenham's 
 - [Box](#Box)
 - [Line](#Line)
 
-### Methods
-#### DrawPixel
-#### DrawFigure
-#### FillFigure
-
 ## Examples
 ### Triangle
  ```C++
