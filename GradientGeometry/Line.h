@@ -3,14 +3,19 @@
 #include "Point.h"
 #include "Canvas.h"
 #include <functional>
+#include "Box.h"
 #include <windows.h>
 
 class Line: public Figure
 {
 	Point A, B;
+	float Lenght = NULL;
+	Box * DrawBox=NULL;
+	Box * GetDrawBox();
 	public:
 	Line(int x0, int  y0, int x1, int y1);
 	Line(Point a, Point b);
+	~Line();
 	static double GetLength(int x0, int  y0, int x1, int y1);
 	static double GetLength(Point a, Point b);
 	double GetLength();

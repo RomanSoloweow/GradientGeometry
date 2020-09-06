@@ -24,9 +24,6 @@ using namespace placeholders;
 
 	COLORREF Canvas::GetColor(int x, int y)
 	{
-		if (DefaultColor != NULL)
-			return *DefaultColor;
-
 		double r_ = 0, g_ = 0, b_ = 0;
 		if (PointInside(x, y))
 		{
@@ -38,19 +35,15 @@ using namespace placeholders;
 		{
 			r_ = 255, g_ = 255, b_ = 255;
 		}
-		COLORREF color = RGB(r_, g_, b_);
-		return color;
+		return RGB(r_, g_, b_);
 	}
 
-	Canvas::Canvas(int x0, int y0, int x1, int y1, COLORREF color): A(min(x0, x1), min(y0, y1)), B(max(x0, x1), max(y0, y1))
+	Canvas::Canvas(int x0, int y0, int x1, int y1): A(min(x0, x1), min(y0, y1)), B(max(x0, x1), max(y0, y1))
 	{
-		if (color != NULL)
-			DefaultColor = new COLORREF(color);
-
 		GetScreen();
 	}
 
-	Canvas::Canvas(Point& a, Point& b, COLORREF color) :Canvas(a.X, a.Y, b.X, b.Y, color)
+	Canvas::Canvas(Point& a, Point& b) :Canvas(a.X, a.Y, b.X, b.Y)
 	{
 		
 	}
@@ -76,21 +69,21 @@ using namespace placeholders;
 
 	void Canvas::DrawFigure(Figure& figure, bool newGradient)
 	{
-		/*if (newGradient)
+		if (newGradient)
 		{
-			figure.Draw(*this, bind(&Figure::GetColor, figure, _1, _2));
+			figure.Draw(*this, bind(&Figure::GetColor, &figure, _1, _2));
 		}
 		else
-		{*/
+		{
 			figure.Draw(*this, bind(&Canvas::GetColor, this, _1, _2));
-		/*}*/
+		}
 	}
 
 	void Canvas::FillFigure(Figure& figure, bool newGradient)
 	{
 		if (newGradient)
 		{
-			figure.Fill(*this, bind(&Figure::GetColor, figure, _1, _2));
+			figure.Fill(*this, bind(&Figure::GetColor, &figure, _1, _2));
 		}
 		else
 		{

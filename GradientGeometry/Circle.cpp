@@ -1,30 +1,31 @@
 #include "Circle.h"
 
-	Circle::Circle(int x, int y, int radius) :O(x, y), Radius(radius)
+	Circle::Circle(int x, int y, int r) :O(x, y), R(r)
 	{
 
 	}
 
-	Circle::Circle(Point o, int radius) : O(o), Radius(radius)
+	Circle::Circle(Point o, int r) : O(o), R(r)
 	{
 
 	}
 
-	float Circle::Square(int& radius)
+	double Circle::GetSquare(int& r)
 	{
-		return 3.14159265358979323846 * radius * radius;
+		return 3.14159265358979323846 * r * r;
 	}
 
-	float  Circle::Square()
+	double  Circle::GetSquare()
 	{
-		return Circle::Square(Radius);
+		Square = Square == NULL ? Circle::GetSquare(R) : Square;
+		return Square;
 	}
 
 	void  Circle::Draw(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		int x = 0;
-		int y = Radius;
-		int delta = 1 - 2 * Radius;
+		int y = R;
+		int delta = 1 - 2 * R;
 		int error = 0;
 		while (y >= 0)
 		{
@@ -46,7 +47,7 @@
 				delta += 1 - 2 * y;
 				continue;
 			}
-			if (x < Radius)
+			if (x < R)
 				++x;
 			delta += 2 * (x - y);
 			--y;
@@ -56,8 +57,8 @@
 	void  Circle::Fill(Canvas& canvas, function<COLORREF(int x, int y)> getColor)
 	{
 		int x = 0;
-		int y = Radius;
-		int delta = 1 - 2 * Radius;
+		int y = R;
+		int delta = 1 - 2 * R;
 		int error = 0;
 		while (y >= 0)
 		{
@@ -79,14 +80,32 @@
 				delta += 1 - 2 * y;
 				continue;
 			}
-			if (x < Radius)
+			if (x < R)
 				++x;
 			delta += 2 * (x - y);
 			--y;
 		}
 	}
-
-	COLORREF Circle::GetColor(int x, int y)
+	COLORREF Circle::GetColor(Point o, int r, int x, int y)
 	{
-		return RGB(0, 0, 0);
+		double r_ = 0, g_ = 0, b_ = 0;
+		r_ = 255.000 * (y - (o.Y - r)) / (2 * r);
+		b_ = 255.000 * (x - (o.X - r)) / (2 * r);
+		g_ = 255.000 - ((r_ + b_) / 2);
+		return RGB(r_, g_, b_);
 	}
+	//unique color
+	COLORREF Circle::GetColor(int x, int y)
+	{		
+		return Circle::GetColor(O, R, x, y);
+	}
+
+
+	//COLORREF Circle::GetColor(int x, int y)
+	//{
+	//	double r_ = 0, g_ = 0, b_ = 0;
+	//	r_ = 255.000 * (y - (O.Y - R)) /2*R;
+	//	b_ = 255.000 * (x - (O.X - R)) /2*R;
+	//	g_ = 255.000 - ((r_ + b_) / 2);
+	//	return RGB(r_, g_, b_);
+	//}
